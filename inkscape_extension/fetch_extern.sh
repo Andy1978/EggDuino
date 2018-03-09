@@ -5,7 +5,7 @@ then
   git clone https://github.com/evil-mad/plotink.git
 
   # apply patches
-  patch -N -d plotink/ -p1 < ebb_serial.py.patch
+  patch -N -d plotink/ -p1 < plotink.patch
 
 fi
 

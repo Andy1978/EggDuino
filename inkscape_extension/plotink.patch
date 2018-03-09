@@ -1,5 +1,5 @@
 diff --git a/libraries/ebb_serial.py b/libraries/ebb_serial.py
-index eb4af2d..29ba5cf 100644
+index eb4af2d..1ca115a 100644
 --- a/libraries/ebb_serial.py
 +++ b/libraries/ebb_serial.py
 @@ -53,15 +53,26 @@ def findPort():
@@ -40,3 +40,12 @@ index eb4af2d..29ba5cf 100644
  			if portHasEBB:
  				EBBPortsList.append(port)
  		if EBBPortsList:
+@@ -99,7 +112,7 @@ def testPort( comPort ):
+ 	'''		
+ 	if comPort is not None:
+ 		try:
+-			serialPort = serial.Serial( comPort, timeout=1.0 ) # 1 second timeout!
++			serialPort = serial.Serial( comPort, timeout=3.0 ) # 3 second timeout!
+ 			
+ 			serialPort.flushInput()	# deprecated function name;
+ 									# use serialPort.reset_input_buffer() 

@@ -1,4 +1,4 @@
-.PHONY: fetch install uninstall realclean
+.PHONY: fetch install uninstall update_patches realclean
 
 PLOTINK_FILES= ebb_motion.py ebb_serial.py plot_utils.py
 
@@ -16,16 +16,20 @@ TARGET=~/.config/inkscape/extensions
 all:
 	@echo 'No default target, choose between "fetch", "install", "uninstall" or "realclean"'
 
+fetch:
+	./fetch_extern.sh
+
 install: fetch
 	cd plotink/libraries && cp $(PLOTINK_FILES) $(TARGET); cd -
 	cd EggBot/inkscape_driver && cp $(INKSCAPE_DRIVER_FILES) $(TARGET); cd -
 	cd EggBot/inkscape_contributed && cp $(INKSCAPE_CONT) $(TARGET); cd -
 
-fetch:
-	./fetch_extern.sh
-
 uninstall:
 	cd $(TARGET) && rm -f $(PLOTINK_FILES) $(INKSCAPE_DRIVER_FILES) $(INKSCAPE_CONT); cd -
+
+update_patches: fetch
+	cd plotink && git diff > ../plotink.patch
+	cd EggBot && git diff > ../EggBot.patch
 
 realclean:
 	rm -rf EggBot plotink
