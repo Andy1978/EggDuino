@@ -1,0 +1,66 @@
+diff --git a/inkscape_driver/eggbot.py b/inkscape_driver/eggbot.py
+index 6a9badb..daa87ad 100755
+--- a/inkscape_driver/eggbot.py
++++ b/inkscape_driver/eggbot.py
+@@ -965,6 +965,10 @@ class EggBot( inkex.Effect ):
+ 				# store home
+ 				if self.ptFirst is None:
+ 
++					inkex.errormsg("self.svgWidth             = " + str(self.svgWidth))
++					inkex.errormsg("self.svgHeight            = " + str(self.svgHeight))
++					inkex.errormsg("self.step_scaling_factor  = " + str(self.step_scaling_factor))
++
+ 					# if we should start at center, then the first line segment should draw from there
+ 					if self.options.startCentered:
+ 						self.fPrevX = self.svgWidth / ( self.step_scaling_factor )
+@@ -972,10 +976,17 @@ class EggBot( inkex.Effect ):
+ 
+ 						self.ptFirst = ( self.fPrevX, self.fPrevY )
+ 					else:
++						self.fPrevX = 0
++						self.fPrevY = 0
+ 						self.ptFirst = ( self.fX, self.fY )
+ 						
+ 				if self.plotCurrentLayer:
+ 					if nIndex == 0:
++						inkex.errormsg("self.fX             = " + str(self.fX))
++						inkex.errormsg("self.fPrevX         = " + str(self.fPrevX))
++						inkex.errormsg("self.fY             = " + str(self.fY))
++						inkex.errormsg("self.fPrevY         = " + str(self.fPrevY))
++						inkex.errormsg("eggbot_conf.MIN_GAP = " + str(eggbot_conf.MIN_GAP))
+ 						if (plot_utils.distance(self.fX - self.fPrevX,self.fY - self.fPrevY) > eggbot_conf.MIN_GAP):
+ 							# Only raise pen between two points if there is at least a 1 step gap between them.
+ 							self.penUp()
+@@ -1166,4 +1177,4 @@ class EggBot( inkex.Effect ):
+ 				self.bStopped = True
+ 				return
+ e = EggBot()
+-e.affect()
+\ No newline at end of file
++e.affect()
+diff --git a/inkscape_driver/eggbot_hatch.inx b/inkscape_driver/eggbot_hatch.inx
+index a6b78ab..eab2e54 100755
+--- a/inkscape_driver/eggbot_hatch.inx
++++ b/inkscape_driver/eggbot_hatch.inx
+@@ -33,7 +33,7 @@ Hatched figures will be grouped with their fills.
+   <param name="holdBackSteps" type="float" min="0.1" max="10.0" _gui-text="   Inset distance (px) (default: 1)">1.0</param>
+   <param name="tolerance" type="float" min="0.1" max="100" _gui-text="   Tolerance (default: 20)">20.0</param>
+   <param name="footer" type="description" xml:space="preserve">
+-            (v2.1.0, December 8, 2017)</_param>
++            (v2.1.0, December 8, 2017)</param>
+ 
+   </page>
+   <page name="info" _gui-text="More info...">
+diff --git a/inkscape_driver/eggbot_scanlinux.py b/inkscape_driver/eggbot_scanlinux.py
+index c9346a5..ea12c98 100755
+--- a/inkscape_driver/eggbot_scanlinux.py
++++ b/inkscape_driver/eggbot_scanlinux.py
+@@ -25,7 +25,7 @@ def findEiBotBoards():
+ 
+ def findPorts():
+ 	for device in os.listdir( DEV_TREE ):
+-		if not device.startswith( 'ttyACM' ):
++		if not device.startswith( 'ttyACM' ) and not device.startswith( 'ttyUSB' ):
+ 			continue
+ 		yield os.path.join( DEV_TREE , device )
+ 

@@ -1,0 +1,42 @@
+diff --git a/libraries/ebb_serial.py b/libraries/ebb_serial.py
+index eb4af2d..29ba5cf 100644
+--- a/libraries/ebb_serial.py
++++ b/libraries/ebb_serial.py
+@@ -53,15 +53,26 @@ def findPort():
+ 		comPortsList = list(comports())
+ 		EBBport = None
+ 		for port in comPortsList:
+-			#inkex.errormsg(port[1])	#TODO REMOVE
++			#inkex.errormsg(port[0])
++			#inkex.errormsg(port[1])
++			#inkex.errormsg(port[2])
+ 			if port[1].startswith("EiBotBoard"):
+ 				EBBport = port[0] 	#Success; EBB found by name match.
+ 				break	#stop searching-- we are done.
++			elif port[1].startswith("USB2.0-Serial"):
++				EBBport = port[0]
++				break  # stop searching-- we are done.
++			elif port[1].startswith("USB-SERIAL"):
++				EBBport = port[0]
++				break  # stop searching-- we are done.
+ 		if EBBport is None:
+ 			for port in comPortsList:
+ 				if port[2].startswith("USB VID:PID=04D8:FD92"):
+ 					EBBport = port[0] #Success; EBB found by VID/PID match.
+-					break	#stop searching-- we are done.				
++					break	#stop searching-- we are done.
++				if port[2].startswith("USB VID:PID=1A86:7523"):
++					EBBport = port[0] #Success; EBB found by VID/PID match.
++					break	#stop searching-- we are done.
+ 		return EBBport
+ 
+ def listEBBports():	
+@@ -81,6 +92,8 @@ def listEBBports():
+ 				portHasEBB = True
+ 			elif port[2].startswith("USB VID:PID=04D8:FD92"):
+ 				portHasEBB = True
++			elif port[2].startswith("USB VID:PID=1A86:7523"):
++				portHasEBB = True
+ 			if portHasEBB:
+ 				EBBPortsList.append(port)
+ 		if EBBPortsList:
