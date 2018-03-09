@@ -32,6 +32,7 @@ void EBBParser::parseStream()
 
     char* str = mReadBuffer.begin();
     const char* cmd = strsep(&str, ",");
+    strupr (cmd);
     const char* arg1 = strsep(&str, ",");
     const char* arg2 = strsep(&str, ",");
     const char* arg3 = strsep(&str, ",");
@@ -68,10 +69,13 @@ void EBBParser::parseStream()
         parseSP(arg1, arg2, arg3);
     } else if (strcmp(cmd, "TP") == 0) {
         parseTP(arg1);
-    } else if (strcmp(cmd, "v") == 0) {
+    } else if (strcmp(cmd, "V") == 0) {
         parseV();
-    } else
-        sendError();
+    } else {
+       mStream.print("!8 Err: Unknown command '");
+       mStream.print(cmd);
+       mStream.print("'\r\n");
+    }
 
     mReadBuffer = "";
 }
