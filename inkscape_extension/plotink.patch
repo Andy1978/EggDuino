@@ -1,8 +1,8 @@
 diff --git a/libraries/ebb_serial.py b/libraries/ebb_serial.py
-index eb4af2d..1ca115a 100644
+index eb4af2d..8521776 100644
 --- a/libraries/ebb_serial.py
 +++ b/libraries/ebb_serial.py
-@@ -53,15 +53,26 @@ def findPort():
+@@ -53,15 +53,29 @@ def findPort():
  		comPortsList = list(comports())
  		EBBport = None
  		for port in comPortsList:
@@ -28,19 +28,24 @@ index eb4af2d..1ca115a 100644
 +				if port[2].startswith("USB VID:PID=1A86:7523"):
 +					EBBport = port[0] #Success; EBB found by VID/PID match.
 +					break	#stop searching-- we are done.
++				if port[2].startswith("USB VID:PID=2341:0043"):
++					EBBport = port[0] #Success; EBB found by VID/PID match.
++					break	#stop searching-- we are done.
  		return EBBport
  
  def listEBBports():	
-@@ -81,6 +92,8 @@ def listEBBports():
+@@ -81,6 +95,10 @@ def listEBBports():
  				portHasEBB = True
  			elif port[2].startswith("USB VID:PID=04D8:FD92"):
  				portHasEBB = True
 +			elif port[2].startswith("USB VID:PID=1A86:7523"):
 +				portHasEBB = True
++			elif port[2].startswith("USB VID:PID=2341:0043"):
++				portHasEBB = True
  			if portHasEBB:
  				EBBPortsList.append(port)
  		if EBBPortsList:
-@@ -99,7 +112,7 @@ def testPort( comPort ):
+@@ -99,7 +117,7 @@ def testPort( comPort ):
  	'''		
  	if comPort is not None:
  		try:
